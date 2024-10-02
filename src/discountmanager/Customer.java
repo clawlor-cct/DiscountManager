@@ -17,30 +17,46 @@ public class Customer {
     
     // Getters & Setters used to retrieve and set data in an instance of the class.
     public String getFullname(){
-        return this.strFullname;
+        return strFullname;
     }
     public void setFullname(String pstrFullname){
         this.strFullname = pstrFullname;
     }
     
     public double getTotalPurchases(){
-        return this.dTotalPurchases;
+        return dTotalPurchases;
     }
     public void setTotalPurchases(double pdTotalPurchases){
         this.dTotalPurchases = pdTotalPurchases;
     }
     
     public int getClassType(){
-        return this.iClass;
+        return iClass;
     }
     public void setClassType(int piClass){
         this.iClass = piClass;
     }
     
     public int getYear(){
-        return this.iYear;
+        return iYear;
     }
     public void setYear(int piYear){
         this.iYear = piYear;
+    }
+    
+    // Used to convert the data of the object instance into CSV (Comma Seperated Values).
+    // Will be used to store the class instance within a txt file.
+    public String toCSV() {
+        return strFullname + "," + dTotalPurchases + "," + iClass + "," + iYear;
+    }
+
+    // Used to convert CSV back to a cutomer instance. This method is static so that it can be referenced from the class itself rather than an instance instself.
+    // Will be used to create a class instance from data within a txt file.
+    public static Customer fromCSV(String csv) {
+        String[] params = csv.split(",");
+        
+        //**Check if param index exists?**
+
+        return new Customer(params[0], Double.parseDouble(params[1]), Integer.parseInt(params[2]), Integer.parseInt(params[3]));
     }
 }
