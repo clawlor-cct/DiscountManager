@@ -43,20 +43,4 @@ public class Customer {
     public void setYear(int piYear){
         this.iYear = piYear;
     }
-    
-    // Used to convert the data of the object instance into CSV (Comma Seperated Values).
-    // Will be used to store the class instance within a txt file.
-    public String toCSV() {
-        return strFullname + "," + dTotalPurchases + "," + iClass + "," + iYear;
-    }
-
-    // Used to convert CSV back to a cutomer instance. This method is static so that it can be referenced from the class itself rather than an instance instself.
-    // Will be used to create a class instance from data within a txt file.
-    public static Customer fromCSV(String csv) {
-        String[] params = csv.split(",");
-        
-        //**Check if param index exists?**
-
-        return new Customer(params[0], Double.parseDouble(params[1]), Integer.parseInt(params[2]), Integer.parseInt(params[3]));
-    }
 }
