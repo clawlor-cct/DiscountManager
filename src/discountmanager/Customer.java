@@ -43,4 +43,34 @@ public class Customer {
     public void setLastPurchase(int piLastPurchase){
         this.iLastPurchase = piLastPurchase;
     }
+    
+    
+    private double calculateDiscountRate() {
+        switch (iClass) {
+            case 1 -> {
+                if (iLastPurchase == 2024) // Check if last purchase is 2024.
+                    return 0.7; // 30% discount.
+                else if (iLastPurchase < 2024) // Check if last purchase is less than 2024 then check if its less than 2019 aswell calculate the discounts (using ternary operator).
+                    return iLastPurchase < 2019 ? 0.9 : 0.8; // 10% or 20% discount.
+            }
+                
+            case 2 -> {
+                if (iLastPurchase == 2024) // Check if last purchase is 2024.
+                    return 0.85; // 15% discount.
+                else if (iLastPurchase < 2024) // Check if last purchase is less than 2024 then check if its less than 2019 aswell calculate the discounts (using ternary operator).
+                    return iLastPurchase < 2019 ? 0.95 : 0.87; // 5% or 13% discount.
+            }
+
+            case 3 -> {
+                if (iLastPurchase == 2024) // Check if last purchase is 2024.
+                    return 0.97; // 3% discount.
+            }
+        }
+        return 1.0; // 0% discount.
+    }
+    
+    public double getDiscount() {
+        return dTotalPurchases * calculateDiscountRate();
+    }
+    
 }

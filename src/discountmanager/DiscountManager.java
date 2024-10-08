@@ -1,6 +1,8 @@
 package discountmanager;
 
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -127,47 +129,21 @@ public class DiscountManager {
         return listCustomers;
     }
     
-    private static double getDiscountRate(int iClassType, int iLastPurchase) {
-        switch (iClassType) {
-            case 1:
-                if (iLastPurchase == 2024) // Check if last purchase is 2024.
-                    return 0.7; // 30% discount.
-                else if (iLastPurchase < 2024) // Check if last purchase is less than 2024 then check if its less than 2019 aswell calculate the discounts (using ternary operator).
-                    return iLastPurchase < 2019 ? 0.9 : 0.8; // 10% or 20% discount.
-                break;
-                
-            case 2:
-                if (iLastPurchase == 2024) // Check if last purchase is 2024.
-                    return 0.85; // 15% discount.
-                else if (iLastPurchase < 2024) // Check if last purchase is less than 2024 then check if its less than 2019 aswell calculate the discounts (using ternary operator).
-                    return iLastPurchase < 2019 ? 0.95 : 0.87; // 5% or 13% discount.
-                break;
-
-            case 3:
-                if (iLastPurchase == 2024) // Check if last purchase is 2024.
-                    return 0.97; // 3% discount.
-                break;
-
-        }
-        return 1.0; // 0% discount.
-    }
-    
-    private static double calculateDiscount(Customer customer) {
-        
-        int iClassType          = customer.getClassType();
-        int iLastPurchase       = customer.getLastPurchase();
-        double dTotalPurchases  = customer.getTotalPurchases();
-
-        double dDiscountRate = getDiscountRate(iClassType, iLastPurchase);
-        return dTotalPurchases * dDiscountRate;
-    }
-    
 
     public static void main(String[] args) {
-        List<Customer> listCustomers = DiscountManager.getCustomers();
-        for(int i = 0; i < listCustomers.size(); i++){
-            Customer customer = listCustomers.get(i);
-            System.out.println(calculateDiscount(customer));
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("customerdiscount.txt"))) { // Create buffered writer.
+            List<Customer> listCustomers = DiscountManager.getCustomers(); // Create list with customer type.
+            for (int i = 0; i < listCustomers.size(); i++){ // Iterate over list of customers.
+                Customer customer = listCustomers.get(i); // Get customer at every index of the list.
+
+                bufferedWriter.write(customer.getFullname()); // Write customers fullname.
+                bufferedWriter.newLine(); // Write new line.
+                
+                bufferedWriter.write(Double.toString(customer.getDiscount())); // Write customers discount.
+                bufferedWriter.newLine(); // Write new line.
+            }
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
