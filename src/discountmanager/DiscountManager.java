@@ -38,7 +38,7 @@ public class DiscountManager {
         return false;
     }
     
-    private static void printErrorDetails(int iErrorType, String strFullname, String strTotalPurchases, String strClass, String strYear) {
+    private static void printErrorDetails(int iErrorType, String strFullname, String strTotalPurchases, String strClass, String strLastPurchase) {
         System.out.println("-----------------------------------------");
 
         // Switch statement used for print the correct error along with details about the customer. Improves traceability when fixing.
@@ -53,18 +53,18 @@ public class DiscountManager {
                 System.out.println("| ERROR: Customer class (" + strClass + ") not correct!");
                 break;
             case 4:
-                System.out.println("| ERROR: Customer year (" + strYear + ") not correct!");
+                System.out.println("| ERROR: Customer year (" + strLastPurchase + ") not correct!");
                 break;
         }
         System.out.println("-----------------------------------------");
         System.out.println("| Full Name:\t" + strFullname);
         System.out.println("| Purchases:\t" + strTotalPurchases);
         System.out.println("| Class:\t" + strClass);
-        System.out.println("| Year:\t\t" + strYear);
+        System.out.println("| Year:\t\t" + strLastPurchase);
         System.out.println("-----------------------------------------");
     }
     
-    private static List<Customer> getCustomers(){
+    private static List<Customer> getCustomers() {
         // Create list with customer type to dynamically store instances of the customer class.
         List<Customer> listCustomers = new ArrayList<Customer>();
         
@@ -79,31 +79,31 @@ public class DiscountManager {
                 String strFullname          = scanner.nextLine();
                 String strTotalPurchases    = scanner.nextLine();
                 String strClass             = scanner.nextLine();
-                String strYear              = scanner.nextLine();
+                String strLastPurchase      = scanner.nextLine();
 
                 // Check if name is correct as per the assignments guidelines.
                 // a) the first name must be letters only;
                 // b) The second name can be letters and/or numbers and must be separated from the first name by a single space;
                 if (!DiscountManager.isFullname(strFullname)) {
-                    DiscountManager.printErrorDetails(1, strFullname, strTotalPurchases, strClass, strYear);
+                    DiscountManager.printErrorDetails(1, strFullname, strTotalPurchases, strClass, strLastPurchase);
                     continue;
                 }
                 
                 // c) the value of purchase of classes must be double
                 if (!DiscountManager.isDouble(strTotalPurchases)) {
-                    DiscountManager.printErrorDetails(2, strFullname, strTotalPurchases, strClass, strYear);
+                    DiscountManager.printErrorDetails(2, strFullname, strTotalPurchases, strClass, strLastPurchase);
                     continue;
                 }
                 
                 // d) the Class must be a integer between 1 to 3.
                 if (!DiscountManager.isClass(strClass)) {
-                    DiscountManager.printErrorDetails(3, strFullname, strTotalPurchases, strClass, strYear);
+                    DiscountManager.printErrorDetails(3, strFullname, strTotalPurchases, strClass, strLastPurchase);
                     continue;
                 } 
          
                 // e) Last purchase must be a valid year. (Supports any year that is 4 digits)
-                if (!DiscountManager.isValidYear(strYear)) {
-                    DiscountManager.printErrorDetails(4, strFullname, strTotalPurchases, strClass, strYear);
+                if (!DiscountManager.isValidYear(strLastPurchase)) {
+                    DiscountManager.printErrorDetails(4, strFullname, strTotalPurchases, strClass, strLastPurchase);
                     continue;
                 }
 
@@ -113,7 +113,7 @@ public class DiscountManager {
                         strFullname,                            // String pstrFullname 
                         Double.parseDouble(strTotalPurchases),  // double pdTotalPurchases
                         Integer.parseInt(strClass),             // int piClass
-                        Integer.parseInt(strYear)               // int piYear
+                        Integer.parseInt(strLastPurchase)       // int piLastPurchase
                 );
                 
                 // Push instance to list.
@@ -127,11 +127,47 @@ public class DiscountManager {
         return listCustomers;
     }
     
+    private static double getDiscountRate(int iClassType, int iLastPurchase) {
+        switch (iClassType) {
+            case 1:
+                if (iLastPurchase == 2024) // Check if last purchase is 2024.
+                    return 0.7; // 30% discount.
+                else if (iLastPurchase < 2024) // Check if last purchase is less than 2024 then check if its less than 2019 aswell calculate the discounts (using ternary operator).
+                    return iLastPurchase < 2019 ? 0.9 : 0.8; // 10% or 20% discount.
+                break;
+                
+            case 2:
+                if (iLastPurchase == 2024) // Check if last purchase is 2024.
+                    return 0.85; // 15% discount.
+                else if (iLastPurchase < 2024) // Check if last purchase is less than 2024 then check if its less than 2019 aswell calculate the discounts (using ternary operator).
+                    return iLastPurchase < 2019 ? 0.95 : 0.87; // 5% or 13% discount.
+                break;
+
+            case 3:
+                if (iLastPurchase == 2024) // Check if last purchase is 2024.
+                    return 0.97; // 3% discount.
+                break;
+
+        }
+        return 1.0; // 0% discount.
+    }
+    
+    private static double calculateDiscount(Customer customer) {
+        
+        int iClassType          = customer.getClassType();
+        int iLastPurchase       = customer.getLastPurchase();
+        double dTotalPurchases  = customer.getTotalPurchases();
+
+        double dDiscountRate = getDiscountRate(iClassType, iLastPurchase);
+        return dTotalPurchases * dDiscountRate;
+    }
+    
 
     public static void main(String[] args) {
         List<Customer> listCustomers = DiscountManager.getCustomers();
         for(int i = 0; i < listCustomers.size(); i++){
-            System.out.println(listCustomers.get(i).getFullname());
+            Customer customer = listCustomers.get(i);
+            System.out.println(calculateDiscount(customer));
         }
     }
 

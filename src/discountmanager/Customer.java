@@ -5,14 +5,14 @@ public class Customer {
     private String strFullname;
     private double dTotalPurchases;
     private int iClass;
-    private int iYear;
+    private int iLastPurchase;
     
     // Constructor used for creating an instance of the customer class.
-    public Customer(String pstrFullname, double pdTotalPurchases, int piClass, int piYear){
+    public Customer(String pstrFullname, double pdTotalPurchases, int piClass, int piLastPurchase){
         this.strFullname        = pstrFullname;
         this.dTotalPurchases    = pdTotalPurchases;
         this.iClass             = piClass;
-        this.iYear              = piYear;
+        this.iLastPurchase      = piLastPurchase;
     }
     
     // Getters & Setters used to retrieve and set data in an instance of the class.
@@ -37,10 +37,10 @@ public class Customer {
         this.iClass = piClass;
     }
     
-    public int getYear(){
-        return iYear;
+    public int getLastPurchase(){
+        return iLastPurchase;
     }
-    public void setYear(int piYear){
-        this.iYear = piYear;
+    public void setLastPurchase(int piLastPurchase){
+        this.iLastPurchase = piLastPurchase;
     }
 }
