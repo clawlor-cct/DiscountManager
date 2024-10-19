@@ -129,7 +129,7 @@ public class DiscountManager {
         return listCustomers;
     }
     
-
+    //https://github.com/clawlor-cct/DiscountManager
     public static void main(String[] args) {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("customerdiscount.txt"))) { // Create buffered writer.
             List<Customer> listCustomers = DiscountManager.getCustomers(); // Create list with customer type.

@@ -8,40 +8,40 @@ public class Customer {
     private int iLastPurchase;
     
     // Constructor used for creating an instance of the customer class.
-    public Customer(String pstrFullname, double pdTotalPurchases, int piClass, int piLastPurchase){
-        this.strFullname        = pstrFullname;
-        this.dTotalPurchases    = pdTotalPurchases;
-        this.iClass             = piClass;
-        this.iLastPurchase      = piLastPurchase;
+    public Customer(String strFullname, double dTotalPurchases, int iClass, int iLastPurchase){
+        this.strFullname        = strFullname;
+        this.dTotalPurchases    = dTotalPurchases;
+        this.iClass             = iClass;
+        this.iLastPurchase      = iLastPurchase;
     }
     
     // Getters & Setters used to retrieve and set data in an instance of the class.
     public String getFullname(){
         return strFullname;
     }
-    public void setFullname(String pstrFullname){
-        this.strFullname = pstrFullname;
+    public void setFullname(String strFullname){
+        this.strFullname = strFullname;
     }
     
     public double getTotalPurchases(){
         return dTotalPurchases;
     }
-    public void setTotalPurchases(double pdTotalPurchases){
-        this.dTotalPurchases = pdTotalPurchases;
+    public void setTotalPurchases(double dTotalPurchases){
+        this.dTotalPurchases = dTotalPurchases;
     }
     
     public int getClassType(){
         return iClass;
     }
-    public void setClassType(int piClass){
-        this.iClass = piClass;
+    public void setClassType(int iClass){
+        this.iClass = iClass;
     }
     
     public int getLastPurchase(){
         return iLastPurchase;
     }
-    public void setLastPurchase(int piLastPurchase){
-        this.iLastPurchase = piLastPurchase;
+    public void setLastPurchase(int iLastPurchase){
+        this.iLastPurchase = iLastPurchase;
     }
     
     
@@ -70,7 +70,7 @@ public class Customer {
     }
     
     public double getDiscount() {
-        return dTotalPurchases * calculateDiscountRate();
+        return Math.round((dTotalPurchases * calculateDiscountRate()) * 100.0) / 100.0; // Round result and return.
     }
     
 }
