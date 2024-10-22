@@ -44,7 +44,10 @@ public class Customer {
         this.iLastPurchase = iLastPurchase;
     }
     
-    
+    // Main Discount Rate Calculator:
+    // - Uses switch statement for logic
+    // - Switch statement uses "arrow notation switch" https://nkamphoa.com/switch-statements-and-switch-expressions-in-java/ (I never knew it existed, and its a very cool implementation)
+    // - Method is made a clean and concise as possible to improve maintainability and readability via ternary operator. https://www.w3schools.com/java/java_conditions_shorthand.asp
     private double calculateDiscountRate() {
         switch (iClass) {
             case 1 -> {
